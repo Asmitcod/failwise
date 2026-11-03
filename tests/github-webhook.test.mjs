@@ -20,6 +20,7 @@ function failurePayload(overrides = {}) {
     repository: {
       full_name: "acme/payments",
       default_branch: "main",
+      owner: { login: "acme", type: "Organization" },
     },
     workflow_run: {
       id: 1842,
@@ -86,6 +87,16 @@ test("parses a failed workflow run for triage", () => {
   assert.equal(webhook.shouldTriage, true);
   assert.equal(webhook.repository.fullName, "acme/payments");
   assert.equal(webhook.run.conclusion, "failure");
+});
+
+test("uses the repository owner when installation account details are omitted", () => {
+  const payload = failurePayload({
+    installation: { id: 123 },
+  });
+  const webhook = parseGitHubWebhook(randomUUID(), "workflow_run", payload);
+
+  assert.equal(webhook.installation.accountLogin, "acme");
+  assert.equal(webhook.installation.accountType, "Organization");
 });
 
 test("persists then publishes signed failed runs before acknowledging", async () => {

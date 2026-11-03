@@ -21,6 +21,8 @@ export interface GitHubRun {
 export interface GitHubRepository {
   fullName: string;
   defaultBranch: string;
+  ownerLogin: string;
+  ownerType: string;
 }
 
 export interface GitHubInstallation {
@@ -115,16 +117,27 @@ function readRepository(value: unknown): GitHubRepository | null {
 
   const defaultBranch = requiredString(value.default_branch, "default branch", 255);
 
-  return { fullName, defaultBranch };
+  const owner = isObject(value.owner) ? value.owner : null;
+  const ownerLogin = owner ? requiredString(owner.login, "repository owner", 255) : "";
+  const ownerType = owner ? requiredString(owner.type, "repository owner type", 64) : "";
+
+  return { fullName, defaultBranch, ownerLogin, ownerType };
 }
 
-function readInstallation(value: unknown): GitHubInstallation | null {
+function readInstallation(
+  value: unknown,
+  repository: GitHubRepository | null,
+): GitHubInstallation | null {
   if (value === undefined || value === null) return null;
   if (!isObject(value)) {
     throw new InvalidWebhookError("Invalid installation in GitHub webhook payload.");
   }
 
-  const account = isObject(value.account) ? value.account : null;
+  const account = isObject(value.account)
+    ? value.account
+    : repository?.ownerLogin
+      ? { login: repository.ownerLogin, type: repository.ownerType }
+      : null;
   if (!account) {
     throw new InvalidWebhookError("Invalid installation account in GitHub webhook payload.");
   }
@@ -202,7 +215,7 @@ export function parseGitHubWebhook(
       ? null
       : requiredString(payload.action, "webhook action", 64);
   const repository = readRepository(payload.repository);
-  const installation = readInstallation(payload.installation);
+  const installation = readInstallation(payload.installation, repository);
   const isCompletedWorkflow = event === "workflow_run" && action === "completed";
   const run = isCompletedWorkflow ? readWorkflowRun(payload.workflow_run) : null;
 
