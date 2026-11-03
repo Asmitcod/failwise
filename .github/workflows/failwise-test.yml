@@ -1,0 +1,16 @@
+name: Failwise Test Failure
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  intentional-failure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Intentional failure
+        run: |
+          echo "Failwise end-to-end test"
+          exit 1

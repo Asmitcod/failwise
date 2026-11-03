@@ -1,0 +1,82 @@
+Attached Element Context from Integrated Browser
+
+Element: aside.page-module___8aEwW__sidebar
+
+URL: http://localhost:3000/
+
+HTML Path: main.page-module___8aEwW__shell > aside.page-module___8aEwW__sidebar
+
+Outer HTML:
+```html
+<aside class="page-module___8aEwW__sidebar"><a class="page-module___8aEwW__brand" aria-label="Failwise home" href="/"><span class="page-module___8aEwW__brandMark">F</span><span>failwise</span><span class="page-module___8aEwW__brandVersion">/ 01</span></a><div class="page-module___8aEwW__workspaceLabel">WORKSPACE</div><a class="page-module___8aEwW__navItem page-module___8aEwW__navActive" href="/"><span class="page-module___8aEwW__navIcon">◫</span>Runs<span class="page-module___8aEwW__navCount">1</span></a><a class="page-module___8aEwW__navItem" href="#how-it-works"><span class="page-module___8aEwW__navIcon">⌁</span>Analysis</a><div class="page-module___8aEwW__sidebarRule"></div><div class="page-module___8aEwW__workspaceLabel">SYSTEM</div><div class="page-module___8aEwW__systemItem"><span class="page-module___8aEwW__systemGlyph">⌘</span>Rules engine<span class="page-module___8aEwW__systemState">READY</span></div><div class="page-module___8aEwW__systemItem"><span class="page-module___8aEwW__systemGlyph">◈</span>LLM provider<span class="page-module___8aEwW__systemOff">OFF</span></div><div class="page-module___8aEwW__sideBuild"><span class="page-module___8aEwW__sideBuildLabel">CURRENT BUILD</span><span class="page-module___8aEwW__sideBuildName">workflow_run</span><span class="page-module___8aEwW__sideBuildSha">sha · <!-- -->a81f2c9</span><span class="page-module___8aEwW__sideBuildLine"></span><span class="page-module___8aEwW__sideBuildNote">Rules-first · read only</span></div><div class="page-module___8aEwW__sidebarBottom"><span class="page-module___8aEwW__statusDot"></span><span>LOCAL ENVIRONMENT</span><span class="page-module___8aEwW__readOnly">V0.1</span></div></aside>
+```
+
+Dimensions:
+- top: 0px
+- left: 0px
+- width: 55px
+- height: 1358px
+
+CSS:
+```css
+* { box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+.page-module___8aEwW__sidebar { z-index: 3;
+  background: var(--side);
+  border-right: 1px solid #202722;
+  flex-direction: column;
+  width: 238px;
+  height: 100vh;
+  padding: 27px 16px 16px;
+  display: flex;
+  position: fixed; }
+.page-module___8aEwW__sidebar { width: 205px; }
+.page-module___8aEwW__sidebar { align-items: center;
+    width: 55px;
+    height: auto;
+    min-height: 100vh;
+    padding: 15px 6px;
+    position: static; }
+
+/* Pseudo-elements */
+::selection { color: #143922;
+  background: #cfe5d3; }
+
+/* Inherited */
+.page-module___8aEwW__shell { color: var(--text); font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif }
+body { color: #17251f; font-family: Arial, Helvetica, sans-serif }
+
+/* Resolved values */
+margin: 0px;
+padding: 15px 6px;
+align-items: center;
+background-attachment: scroll;
+background-clip: border-box;
+background-color: rgb(13, 17, 16);
+background-image: none;
+background-origin: padding-box;
+background-position-x: 0%;
+background-position-y: 0%;
+background-repeat: repeat;
+background-size: auto;
+border-right-color: rgb(32, 39, 34);
+border-right-style: solid;
+border-right-width: 0.8px;
+box-sizing: border-box;
+color: rgb(232, 238, 232);
+display: flex;
+flex-direction: column;
+font-family: Arial, Helvetica, sans-serif, Arial, Helvetica, sans-serif;
+height: 1357.8px;
+min-height: 298.4px;
+position: static;
+unicode-bidi: isolate /*UA*/;
+width: 55px;
+z-index: 3;
+
+/* CSS variables */
+--font-geist-sans: Arial, Helvetica, sans-serif;
+--text: #e8eee8;
+--side: #0d1110;
+```
