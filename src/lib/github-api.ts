@@ -323,6 +323,9 @@ export class GitHubActionsClient {
     if (response.status === 404 || response.status === 410) return "";
     if (!response.ok) throw new GitHubApiError(response.status, response.headers.get("retry-after"));
     const archive = await readBoundedBytes(response, MAX_COMPRESSED_LOG_BYTES);
+    if (response.headers.get("content-type")?.toLowerCase().startsWith("text/plain")) {
+      return new TextDecoder("utf-8", { fatal: false }).decode(archive);
+    }
     return getLogText(archive);
   }
 

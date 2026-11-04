@@ -110,6 +110,61 @@ test("collects failed job logs and files using least-privilege app credentials",
   assert.equal(JSON.parse(Buffer.from(claims, "base64url").toString()).iss, "12345");
 });
 
+test("collects plain-text job logs returned by GitHub", async () => {
+  const client = new GitHubActionsClient({
+    appId: "12345",
+    privateKey,
+    fetcher: async (input) => {
+      const url = String(input);
+      if (url.endsWith("/app/installations/123/access_tokens")) {
+        return Response.json({
+          token: "installation-token",
+          expires_at: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+        });
+      }
+      if (url.includes("/actions/runs/1842/attempts/1/jobs?")) {
+        return Response.json({
+          jobs: [
+            {
+              id: 987,
+              name: "intentional-failure",
+              conclusion: "failure",
+              steps: [{ name: "Intentional failure", conclusion: "failure" }],
+            },
+          ],
+        });
+      }
+      if (url.endsWith("/actions/jobs/987/logs")) {
+        return new Response("Process completed with exit code 1\n", {
+          status: 200,
+          headers: { "content-type": "text/plain" },
+        });
+      }
+      if (url.includes("/actions/runs?")) return Response.json({ workflow_runs: [] });
+      if (url.endsWith("/commits/head")) {
+        return Response.json({ sha: "base" });
+      }
+      if (url.includes("/compare/")) return Response.json({ files: [] });
+      throw new Error(`Unexpected GitHub request: ${url}`);
+    },
+  });
+
+  const result = await client.collectFailedRun({
+    repository: "acme/payments",
+    installationId: 123,
+    runId: "1842",
+    runAttempt: 1,
+    workflowName: "Build and test",
+    headSha: "head",
+    headBranch: "main",
+    baseSha: null,
+  });
+
+  assert.equal(result.failedJobs.length, 1);
+  assert.match(result.failedJobs[0].logExcerpt, /exit code 1/);
+  assert.equal(result.unavailableLogs, 0);
+});
+
 test("selects a previous successful run from the same workflow", async () => {
   const now = Date.UTC(2025, 0, 1);
   const requestedUrls = [];
