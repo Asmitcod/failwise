@@ -43,7 +43,11 @@ export async function publishTriageJob(pendingJob: PendingTriageJob): Promise<bo
   if (!(await claimQueueMessage(pendingJob))) return false;
 
   try {
-    const client = new Client({ token, enableTelemetry: false });
+    const client = new Client({
+      token,
+      baseUrl: process.env.QSTASH_URL,
+      enableTelemetry: false,
+    });
     const failureCallbackUrl = new URL(workerUrl);
     failureCallbackUrl.pathname = "/api/webhooks/qstash/failure";
     failureCallbackUrl.search = "";

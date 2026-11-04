@@ -35,9 +35,14 @@ available at `POST /api/webhooks/github`; add this URL to a GitHub App webhook
 and subscribe to the `workflow_run` event. The signed QStash worker is available
 at `POST /api/webhooks/qstash`. Copy `.env.example` to `.env.local` and set
 `DATABASE_URL`, `GITHUB_WEBHOOK_SECRET`, `GITHUB_APP_ID`,
-`GITHUB_APP_PRIVATE_KEY`, `QSTASH_TOKEN`, both QStash signing keys, and
+`GITHUB_APP_PRIVATE_KEY`, `QSTASH_TOKEN`, `QSTASH_URL`, both QStash signing keys, and
 `QSTASH_WORKER_URL`. Configure a long random `OUTBOX_RECONCILE_SECRET` for
 scheduled outbox recovery.
+
+Set `QSTASH_URL` to the regional API URL shown in the Upstash QStash console.
+For an EU-region QStash account, this is typically
+`https://qstash-eu-central-1.upstash.io`; for a US-region account, use
+`https://qstash-us-east-1.upstash.io`.
 
 The receiver verifies GitHub's HMAC signature over the untouched request body,
 rejects bodies larger than 256 KB, and handles only completed failed or timed
