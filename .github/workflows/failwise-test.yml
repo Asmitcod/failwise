@@ -10,7 +10,7 @@ jobs:
   intentional-failure:
     runs-on: ubuntu-latest
     steps:
-      - name: Intentional failure
+      - name: Intentional type-check failure
         run: |
-          echo "Failwise end-to-end test"
+          echo "error TS2322: Type string is not assignable to type number"
           exit 1
